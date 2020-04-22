@@ -39,9 +39,13 @@ for file in "$@"; do
   MP4Box -cat ".audiobook/$file.m4a" "$book"
   rm ".audiobook/$file.m4a"
 
+  # remove folder an extentions from filename
+  filename=$(basename "$file")
+  filename=${filename%.*}
+
   # write result into chapter list
   echo "CHAPTER${i}=${chapter_start}" >> .audiobook/chapters
-  echo "CHAPTER${i}NAME=$(basename "$file" .m4a)" >> .audiobook/chapters
+  echo "CHAPTER${i}NAME=$filename" >> .audiobook/chapters
 
   # read length to determine next chapter start
   chapter_start=$(MP4Box -info "$book" 2>&1 | sed -n 's/.*Computed Duration \(.*\) - Indicated.*/\1/p')
