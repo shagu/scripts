@@ -52,7 +52,7 @@ for file in "$@"; do
 done
 
 # edit and add chapters to audiobook
-$EDITOR .audiobook/chapters
+#$EDITOR .audiobook/chapters
 MP4Box -chap .audiobook/chapters "$book"
 mp4chaps --convert --chapter-qt "$book"
 
