@@ -27,11 +27,11 @@ for file in "$@"; do
   echo -e "\e[96m::\e[0m Adding \e[93m$file\e[0m"
 
   # convert to aac, stero, 44100Hz, 192k
-  ffmpeg -loglevel error -stats -i "$file" -vn -ar 44100 -ac 2 -c:a aac -b:a 192k ".audiobook/$file"
+  ffmpeg -loglevel error -stats -i "$file" -vn -ar 44100 -ac 2 -c:a aac -b:a 192k ".audiobook/$file.m4a"
 
   # append result to the new audiobook file
-  MP4Box -cat ".audiobook/$file" "$book"
-  rm ".audiobook/$file"
+  MP4Box -cat ".audiobook/$file.m4a" "$book"
+  rm ".audiobook/$file.m4a"
 
   # write result into chapter list
   echo "CHAPTER${i}=${chapter_start}" >> .audiobook/chapters
