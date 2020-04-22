@@ -26,6 +26,12 @@ for file in "$@"; do
   i=$((i+1))
   echo -e "\e[96m::\e[0m Adding \e[93m$file\e[0m"
 
+  # extract cover if no jpeg was found
+  if ! [ -f *.jpg ]; then
+    mp4art --extract "$file"
+    mv *.jpg cover.jpg
+  fi
+
   # convert to aac, stero, 44100Hz, 192k
   ffmpeg -loglevel error -stats -i "$file" -vn -ar 44100 -ac 2 -c:a aac -b:a 192k ".audiobook/$file.m4a"
 
