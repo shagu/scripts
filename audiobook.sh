@@ -7,7 +7,6 @@
 #   - ffmpeg
 #   - libmp4v2
 #   - gpac
-#   - faac
 #
 # usage:
 #   audiobook.sh *.m4a
@@ -25,15 +24,10 @@ mkdir -p .audiobook
 # convert audio to aac and save chapterlist
 for file in "$@"; do
   i=$((i+1))
-
   echo -e "\e[96m::\e[0m Adding \e[93m$file\e[0m"
 
-  # convert to pcm-wav stereo 44100hz to make sure to have all in the same format
-  ffmpeg -loglevel error -stats -i "$file" -vn -ar 44100 -ac 2 ".audiobook/$file.wav"
-
-  # convert to Advanced Audio Coding (AAC)
-  faac ".audiobook/$file.wav" -o ".audiobook/$file" -w
-  rm ".audiobook/$file.wav"
+  # convert to aac, stero, 44100Hz, 192k
+  ffmpeg -loglevel error -stats -i "$file" -vn -ar 44100 -ac 2 -c:a aac -b:a 192k ".audiobook/$file"
 
   # append result to the new audiobook file
   MP4Box -cat ".audiobook/$file" "$book"
