@@ -33,7 +33,7 @@ for file in "$@"; do
   fi
 
   # convert to aac, stero, 44100Hz, 192k
-  ffmpeg -loglevel error -stats -i "$file" -vn -ar 44100 -ac 2 -c:a aac -b:a 192k ".audiobook/$file.m4a"
+  ffmpeg -loglevel error -stats -i "$file" -map_chapters -1 -vn -ar 44100 -ac 2 -c:a aac -b:a 192k ".audiobook/$file.m4a"
 
   # append result to the new audiobook file
   MP4Box -cat ".audiobook/$file.m4a" "$book"
